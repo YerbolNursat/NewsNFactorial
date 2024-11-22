@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">News</string>
+    <string name="hello">Привет</string>
+    <string name="open_your_knowledge_power">Open Your Knowledge Power</string>
+    <string name="motivation_can_take_you_far_but_it_can_take_you_even_futher_if_you_first_find_your_vision">Motivation can take you far, but it can take you even futher if you first find your vision</string>
+    <string name="get_started">Get Started</string>
+</resources>
