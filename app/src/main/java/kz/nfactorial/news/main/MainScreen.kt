@@ -15,12 +15,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,16 +35,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kz.nfactorial.news.R
 
-data class NewsItem(
-    val name: String
-)
-
 @Composable
-fun MainScreen(text: String) {
-    var list by remember { mutableStateOf<List<NewsItem>>(listOf(NewsItem("BBC NEWS"))) }
-
-    var inputText = remember { mutableStateOf("") }
-    var checked = remember { mutableStateOf(false) }
+fun MainScreen(
+    onEvent: (MainEvent) -> Unit,
+    state: MainState
+) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
@@ -55,26 +48,18 @@ fun MainScreen(text: String) {
                 .background(color = Color.White)
                 .padding(top = 56.dp)
         ) {
-            item { Text(text) }
-            item { Switch(checked = checked.value, onCheckedChange = { checked.value = it }) }
-            item { SearchView(inputText) }
-            item { TopView(list) }
-            item { TopView(list) }
-            item { TopView(list) }
+            item { SearchView(onEvent, state) }
+            item { TopView(state.rowData) }
             item { BottomViewHeader() }
-            item { BottomViewHeader() }
-            item { BottomViewHeader() }
-            item { BottomViewHeader() }
-            list.forEachIndexed { i, _ ->
-                item { ColumnView(list[i]) }
+            state.columnData.forEachIndexed { i, _ ->
+                item { ColumnView(state.columnData[i]) }
             }
-//            items(list.size) { key -> }
         }
 
         FloatingActionButton(
             onClick = {
-                if (inputText.value.isNotEmpty())
-                    list = list + NewsItem(inputText.value)
+                if (state.searchText.isNotEmpty())
+                    onEvent(MainEvent.OnAddClick)
             },
             modifier = Modifier
                 .padding(24.dp)
@@ -94,12 +79,15 @@ fun MainScreen(text: String) {
 }
 
 @Composable
-private fun SearchView(inputText: MutableState<String>) {
+private fun SearchView(
+    onEvent: (MainEvent) -> Unit,
+    state: MainState
+) {
     var isFocused by remember { mutableStateOf(false) }
 
     TextField(
-        value = inputText.value,
-        onValueChange = { inputText.value = it },
+        value = state.searchText,
+        onValueChange = { onEvent(MainEvent.OnSearchTextChange(it)) },
         shape = RoundedCornerShape(32.dp),
         modifier = Modifier
             .padding(all = 16.dp)
@@ -113,14 +101,14 @@ private fun SearchView(inputText: MutableState<String>) {
             )
         },
         trailingIcon = {
-            if (isFocused && inputText.value.isNotEmpty())
+            if (isFocused && state.searchText.isNotEmpty())
                 Icon(
                     painter = painterResource(R.drawable.ic_close),
                     contentDescription = null,
                     modifier = Modifier
                         .size(16.dp)
                         .clip(CircleShape)
-                        .clickable { inputText.value = "" }
+                        .clickable { onEvent(MainEvent.OnSearchTextChange("")) }
                 )
         },
         colors = TextFieldDefaults.colors().copy(
@@ -188,5 +176,5 @@ private fun BottomViewHeader() {
 @Preview
 @Composable
 private fun MainScreenPreview() {
-    MainScreen("")
+
 }

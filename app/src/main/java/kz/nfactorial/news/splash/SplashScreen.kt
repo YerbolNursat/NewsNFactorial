@@ -29,7 +29,10 @@ import androidx.compose.ui.unit.sp
 import kz.nfactorial.news.R
 
 @Composable
-fun SplashScreen(navigateToSettings: () -> Unit) {
+fun SplashScreen(
+    onEvent: (SplashEvent) -> Unit
+//    navigateToSettings: () -> Unit
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -39,7 +42,6 @@ fun SplashScreen(navigateToSettings: () -> Unit) {
             )
             .padding(horizontal = 24.dp)
     ) {
-        LazyColumn { }
         Image(
             painter = painterResource(R.drawable.news),
             contentDescription = "newsImage",
@@ -86,7 +88,8 @@ fun SplashScreen(navigateToSettings: () -> Unit) {
                 .fillMaxWidth()
                 .height(72.dp)
                 .clip(RoundedCornerShape(12.dp)),
-            onClick = { navigateToSettings() },
+            onClick = {
+                onEvent(SplashEvent.OnClickToMain(ActionArgs("We are from Splash Fragment"))) },
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors().copy(
                 containerColor = Color(0xFF08080A),

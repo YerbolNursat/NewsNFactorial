@@ -9,21 +9,7 @@
         android:name="kz.nfactorial.news.splash.SplashFragment"
         android:label="SplashFragment">
     </fragment>
-    <deepLink
-        android:id="@+id/action_splashFragment_to_splashFragment2"
-        app:destination="@id/splashFragment2" />
 
-    <fragment
-        android:id="@+id/splashFragment2"
-        android:name="kz.nfactorial.news.splash.SplashFragment2"
-        android:label="SplashFragment" >
-        <argument
-            android:name="@string/app_name"
-            app:nullable="false"
-            android:defaultValue="Nothing"
-            app:argType="String" />
-
-    </fragment>
 
 
 </navigation>
