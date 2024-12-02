@@ -14,6 +14,10 @@ class SplashActivity : FragmentActivity(R.layout.splash_activity) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
 
+        val splashPreference = SplashPreference(this.applicationContext)
+        splashPreference.setTitle("title")
+        splashPreference.setSubTitle("subTitle")
+
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController

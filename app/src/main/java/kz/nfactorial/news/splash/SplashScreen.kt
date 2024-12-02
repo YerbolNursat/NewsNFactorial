@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -27,11 +26,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kz.nfactorial.news.R
+import kz.nfactorial.news.main.MainState
 
 @Composable
 fun SplashScreen(
-    onEvent: (SplashEvent) -> Unit
-//    navigateToSettings: () -> Unit
+    state: MainState,
+    onEvent: (SplashEvent) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -42,6 +42,25 @@ fun SplashScreen(
             )
             .padding(horizontal = 24.dp)
     ) {
+        Text(
+            text = "title",
+            textAlign = TextAlign.Center,
+            color = Color(0xFF08080A),
+            fontWeight = FontWeight(700),
+            fontSize = 32.sp,
+            lineHeight = 48.sp,
+            modifier = Modifier.padding(top = 32.dp)
+        )
+        Text(
+            text = "subtitle",
+            textAlign = TextAlign.Center,
+            color = Color(0xFF08080A),
+            fontWeight = FontWeight(700),
+            fontSize = 32.sp,
+            lineHeight = 48.sp,
+            modifier = Modifier.padding(top = 32.dp)
+        )
+
         Image(
             painter = painterResource(R.drawable.news),
             contentDescription = "newsImage",
@@ -89,7 +108,8 @@ fun SplashScreen(
                 .height(72.dp)
                 .clip(RoundedCornerShape(12.dp)),
             onClick = {
-                onEvent(SplashEvent.OnClickToMain(ActionArgs("We are from Splash Fragment"))) },
+                onEvent(SplashEvent.OnClickToMain(ActionArgs("We are from Splash Fragment")))
+            },
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors().copy(
                 containerColor = Color(0xFF08080A),
@@ -112,5 +132,5 @@ fun SplashScreen(
 @Composable
 @Preview(showBackground = true)
 fun SplashScreenPreview() {
-    SplashScreen { }
+//    SplashScreen { }
 }

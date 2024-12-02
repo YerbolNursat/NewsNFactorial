@@ -3,7 +3,7 @@ package kz.nfactorial.news.main
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
-class MainViewModel : ViewModel() {
+class MainViewModel() : ViewModel() {
 
     var mainState = mutableStateOf(
         MainState(
