@@ -6,4 +6,8 @@ sealed interface MainEvent {
 
     object OnAddClick : MainEvent
 
+    object OnLoading : MainEvent
+
+    object OnGetNews : MainEvent
+
 }

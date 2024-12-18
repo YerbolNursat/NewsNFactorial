@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -41,38 +42,32 @@ fun MainScreen(
     state: MainState
 ) {
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color.White)
-                .padding(top = 56.dp)
-        ) {
-            item { SearchView(onEvent, state) }
-            item { TopView(state.rowData) }
-            item { BottomViewHeader() }
-            state.columnData.forEachIndexed { i, _ ->
-                item { ColumnView(state.columnData[i]) }
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        when (state.columnData) {
+            is UIState.OnGetNews -> {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = Color.White)
+                        .padding(top = 56.dp)
+                ) {
+                    item { SearchView(onEvent, state) }
+                    item { TopView(state.rowData) }
+                    item { BottomViewHeader() }
+                    state.columnData.news.forEachIndexed { i, _ ->
+                        item { ColumnView(state.columnData.news[i]) }
+                    }
+                }
+            }
+
+            is UIState.OnLoading -> {
+                CircularProgressIndicator(Modifier.size(48.dp))
             }
         }
 
-        FloatingActionButton(
-            onClick = {
-                if (state.searchText.isNotEmpty())
-                    onEvent(MainEvent.OnAddClick)
-            },
-            modifier = Modifier
-                .padding(24.dp)
-                .size(64.dp)
-                .background(color = Color.Red, shape = CircleShape)
-                .align(Alignment.BottomEnd)
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_plus),
-                contentDescription = "add content",
-                modifier = Modifier.size(24.dp)
-            )
-        }
 
     }
 

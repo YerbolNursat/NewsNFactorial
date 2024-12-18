@@ -5,9 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import kz.nfactorial.news.db.dao.NewsDao
-import kz.nfactorial.news.db.entity.NewsDb
+import kz.nfactorial.news.db.entity.NewsRoomDTO
 
-@Database(entities = [NewsDb::class], version = 1)
+@Database(entities = [NewsRoomDTO::class], version = 1)
 abstract class NewsDatabase: RoomDatabase() {
 
     abstract fun getAccountDao(): NewsDao

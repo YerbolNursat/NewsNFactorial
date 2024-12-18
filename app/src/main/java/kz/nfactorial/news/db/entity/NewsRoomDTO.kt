@@ -5,11 +5,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class NewsDb(
+data class NewsRoomDTO(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("id")
-    val id: Int,
+    val id: Int = 0,
 
     @ColumnInfo("imageSrc")
     val imageSrc: Int,

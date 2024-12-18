@@ -3,28 +3,31 @@ package kz.nfactorial.news.splash
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import kz.nfactorial.news.db.dao.NewsDao
-import kz.nfactorial.news.db.entity.NewsDb
+import kz.nfactorial.news.db.entity.NewsRoomDTO
 import kz.nfactorial.news.main.MainActivity
-import kz.nfactorial.news.R
+import kotlin.random.Random
 
 class SplashViewModel(
     newsDao: NewsDao,
-    splashPreference: SplashPreference
 ) : ViewModel() {
 
     init {
-        newsDao.insertAccount(
-            newsDb = NewsDb(
-                imageSrc = R.drawable.news,
-                title = "title",
-                subTitle = "subtitle",
-                id = 10
-            )
-        )
-
-        println("title is ${splashPreference.getTitle()}")
-        println("subtitle is ${splashPreference.getSubTitle()}")
+        viewModelScope.launch {
+            newsDao.clearNews()
+            val random = Random(1000)
+            for (i in 0..6) {
+                newsDao.insertNews(
+                    NewsRoomDTO(
+                        imageSrc = 12,
+                        title = random.nextInt(1000).toString(),
+                        subTitle = random.nextInt(1000).toString()
+                    )
+                )
+            }
+        }
     }
 
 
