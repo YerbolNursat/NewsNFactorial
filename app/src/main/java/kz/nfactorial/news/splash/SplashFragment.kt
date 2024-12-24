@@ -6,12 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import kotlinx.coroutines.Delay
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import kz.nfactorial.news.db.DatabaseHolder
+import kz.nfactorial.news.NetworkApi
+import kz.nfactorial.news.data.api.NewsApi
+import kz.nfactorial.news.data.repository.NewsRepository
 import kz.nfactorial.news.ext.viewModels
 
 const val ARGS = "ACTION_ARGS"
@@ -21,8 +18,11 @@ class SplashFragment : Fragment() {
     private val splashViewModel: SplashViewModel by viewModels(
         viewModelInitializer = {
             SplashViewModel(
-                newsDao = DatabaseHolder.getOrCreate(requireContext().applicationContext)
-                    .getAccountDao(),
+                newsRepository = NewsRepository(
+                    newsApi = NetworkApi().retrofit.create<NewsApi>(
+                        NewsApi::class.java
+                    )
+                ),
             )
         }
     )

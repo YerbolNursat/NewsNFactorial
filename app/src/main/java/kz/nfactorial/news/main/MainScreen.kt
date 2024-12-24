@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -47,7 +46,7 @@ fun MainScreen(
         contentAlignment = Alignment.Center
     ) {
         when (state.columnData) {
-            is UIState.OnGetNews -> {
+            is ColumnUIState.OnGetNews -> {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
@@ -55,7 +54,7 @@ fun MainScreen(
                         .padding(top = 56.dp)
                 ) {
                     item { SearchView(onEvent, state) }
-                    item { TopView(state.rowData) }
+                    item { TopView(state.rowData.news) }
                     item { BottomViewHeader() }
                     state.columnData.news.forEachIndexed { i, _ ->
                         item { ColumnView(state.columnData.news[i]) }
@@ -63,7 +62,7 @@ fun MainScreen(
                 }
             }
 
-            is UIState.OnLoading -> {
+            is ColumnUIState.OnLoading -> {
                 CircularProgressIndicator(Modifier.size(48.dp))
             }
         }
@@ -115,7 +114,7 @@ private fun SearchView(
 }
 
 @Composable
-private fun TopView(list: List<NewsItem>) {
+private fun TopView(list: List<RowNewsItem>) {
     Row(
         verticalAlignment = Alignment.Bottom,
         modifier = Modifier.padding(horizontal = 24.dp)

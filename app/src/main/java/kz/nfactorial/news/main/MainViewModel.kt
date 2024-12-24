@@ -3,23 +3,24 @@ package kz.nfactorial.news.main
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kz.nfactorial.news.db.dao.NewsDao
+import kz.nfactorial.news.NetworkApi
+import kz.nfactorial.news.data.api.NewsApi
+import kz.nfactorial.news.data.repository.NewsRepository
 
 class MainViewModel() : ViewModel() {
 
-    lateinit var newsDao: NewsDao
-
-    fun initDao(newsDao: NewsDao) {
-        this.newsDao = newsDao
-    }
+    val repository = NewsRepository(
+        newsApi = NetworkApi().retrofit.create<NewsApi>(
+            NewsApi::class.java
+        )
+    )
 
     var mainState = mutableStateOf(
         MainState(
             searchText = "",
-            columnData = UIState.OnLoading,
-            rowData = emptyList()
+            columnData = ColumnUIState.OnLoading,
+            rowData = RowUIState.OnLoading
         )
     )
 
@@ -36,20 +37,36 @@ class MainViewModel() : ViewModel() {
             }
 
             MainEvent.OnLoading -> mainState.value =
-                mainState.value.copy(columnData = UIState.OnLoading)
+                mainState.value.copy(columnData = ColumnUIState.OnLoading)
 
             MainEvent.OnGetNews -> {
                 viewModelScope.launch {
-                    delay(3000L)
-                    val newsRoomDTOs = newsDao.getNews()
-                    val newsUiList = newsRoomDTOs.map {
-                        NewsItem(
-                            name = it.title
-                        )
+                    val rowData = repository.getNews("row")
+                    rowData.onSuccess {
+                        mainState.value =
+                            mainState.value.copy(rowData = RowUIState.OnGetNews(it.itemDTOS.map {
+                                RowNewsItem(
+                                    title = it.title,
+                                    subTitle = it.subTitle.orEmpty(),
+                                    imageSrc = it.image
+                                )
+                            }))
+
+                    }
+                    val columnData = repository.getNews("column")
+                    columnData.onSuccess {
+                        mainState.value =
+                            mainState.value.copy(columnData = ColumnUIState.OnGetNews(it.itemDTOS.map {
+                                ColumnNewsItem(
+                                    title = it.title,
+                                    category = it.category.orEmpty(),
+                                    author = it.author.orEmpty(),
+                                    readTime = it.readTime.orEmpty(),
+                                    image = it.image,
+                                )
+                            }))
                     }
 
-                    mainState.value =
-                        mainState.value.copy(columnData = UIState.OnGetNews(newsUiList))
                 }
             }
         }

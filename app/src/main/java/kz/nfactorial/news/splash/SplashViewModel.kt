@@ -5,30 +5,13 @@ import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import kz.nfactorial.news.db.dao.NewsDao
-import kz.nfactorial.news.db.entity.NewsRoomDTO
+import kz.nfactorial.news.data.params.NewsParams
+import kz.nfactorial.news.data.repository.NewsRepository
 import kz.nfactorial.news.main.MainActivity
-import kotlin.random.Random
 
 class SplashViewModel(
-    newsDao: NewsDao,
+    private val newsRepository: NewsRepository
 ) : ViewModel() {
-
-    init {
-        viewModelScope.launch {
-            newsDao.clearNews()
-            val random = Random(1000)
-            for (i in 0..6) {
-                newsDao.insertNews(
-                    NewsRoomDTO(
-                        imageSrc = 12,
-                        title = random.nextInt(1000).toString(),
-                        subTitle = random.nextInt(1000).toString()
-                    )
-                )
-            }
-        }
-    }
 
 
     fun dispatch(
@@ -37,10 +20,20 @@ class SplashViewModel(
     ) {
         when (event) {
             is SplashEvent.OnClickToMain -> {
-                val intent = Intent(context, MainActivity::class.java).apply {
-                    putExtra(ARGS, event.args)
+                viewModelScope.launch {
+                    val result = newsRepository.addNews(NewsParams(1))
+                    result.onSuccess {
+                        println(it)
+                            val intent = Intent(context, MainActivity::class.java).apply {
+                                putExtra(ARGS, event.args)
+                            }
+                            context?.startActivity(intent)
+                        }
+                        .onFailure {
+                            println(it)
+
+                        }
                 }
-                context?.startActivity(intent)
             }
 
             SplashEvent.OnResume -> {

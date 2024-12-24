@@ -1,6 +1,5 @@
 package kz.nfactorial.news.main
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,18 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kz.nfactorial.news.R
+import coil3.compose.AsyncImage
 
 @Composable
-internal fun RowView(item: NewsItem) {
+internal fun RowView(item: RowNewsItem) {
     Column(modifier = Modifier.padding(24.dp)) {
-        Image(
-            painter = painterResource(R.drawable.news),
+        AsyncImage(
+            model = item.imageSrc,
             contentDescription = "newsImage",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -33,15 +31,16 @@ internal fun RowView(item: NewsItem) {
         )
         Text(
             modifier = Modifier.padding(top = 8.dp),
-            text = "12 Articles",
+            text = item.title,
             color = Color.LightGray,
             fontSize = 14.sp,
             lineHeight = 28.sp,
             fontWeight = FontWeight(500)
         )
         Text(
-            text = item.name,
+            text = item.subTitle,
             maxLines = 2,
+            modifier = Modifier.width(140.dp),
             overflow = TextOverflow.Ellipsis,
             color = Color.Black,
             fontSize = 20.sp,

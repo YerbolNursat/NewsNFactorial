@@ -1,6 +1,5 @@
 package kz.nfactorial.news.main
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,23 +14,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kz.nfactorial.news.R
+import coil3.compose.AsyncImage
 
 @Composable
-fun ColumnView(item: NewsItem) {
+fun ColumnView(item: ColumnNewsItem) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(24.dp),
         horizontalArrangement = Arrangement.Start
     ) {
-        Image(
-            painter = painterResource(R.drawable.news),
+        AsyncImage(
+            model = item.image,
             contentDescription = "newsImage",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -49,7 +47,7 @@ fun ColumnView(item: NewsItem) {
                         shape = RoundedCornerShape(32.dp)
                     )
                     .padding(vertical = 2.dp, horizontal = 4.dp),
-                text = "Entrepeneur",
+                text = item.category,
                 color = Color.LightGray,
                 fontSize = 11.sp,
                 lineHeight = 14.sp,
@@ -57,15 +55,14 @@ fun ColumnView(item: NewsItem) {
             )
             Text(
                 modifier = Modifier.padding(vertical = 8.dp),
-                text = "How to promote business\n" +
-                        "right away in instagram",
+                text = item.title,
                 color = Color.Black,
                 fontSize = 16.sp,
                 lineHeight = 20.sp,
                 fontWeight = FontWeight(600)
             )
             Text(
-                text = item.name,
+                text = item.author + " " + item.readTime,
                 overflow = TextOverflow.Ellipsis,
                 color = Color.Black,
                 fontSize = 11.sp,
