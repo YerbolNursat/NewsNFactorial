@@ -1,9 +1,6 @@
 package kz.nfactorial.news.splash
 
 import android.content.Context
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class SplashPreference(

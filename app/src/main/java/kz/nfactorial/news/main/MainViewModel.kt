@@ -1,22 +1,31 @@
 package kz.nfactorial.news.main
 
-import androidx.compose.runtime.mutableStateOf
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kz.nfactorial.news.NetworkApi
 import kz.nfactorial.news.data.api.NewsApi
+import kz.nfactorial.news.data.entity.NewsType
 import kz.nfactorial.news.data.repository.NewsRepository
+import kz.nfactorial.news.db.DatabaseHolder
 
 class MainViewModel() : ViewModel() {
 
-    val repository = NewsRepository(
-        newsApi = NetworkApi().retrofit.create<NewsApi>(
-            NewsApi::class.java
-        )
-    )
+    lateinit var repository: NewsRepository
 
-    var mainState = mutableStateOf(
+    fun setContext(context: Context) {
+        this.repository = NewsRepository(
+            newsApi = NetworkApi().retrofit.create<NewsApi>(
+                NewsApi::class.java
+            ),
+            newsDao = DatabaseHolder.getOrCreate(context).getAccountDao()
+        )
+    }
+
+
+    var mainState = MutableStateFlow(
         MainState(
             searchText = "",
             columnData = ColumnUIState.OnLoading,
@@ -41,8 +50,7 @@ class MainViewModel() : ViewModel() {
 
             MainEvent.OnGetNews -> {
                 viewModelScope.launch {
-                    val rowData = repository.getNews("row")
-                    rowData.onSuccess {
+                    repository.getNews(NewsType.ROW).collect {
                         mainState.value =
                             mainState.value.copy(rowData = RowUIState.OnGetNews(it.itemDTOS.map {
                                 RowNewsItem(
@@ -51,10 +59,10 @@ class MainViewModel() : ViewModel() {
                                     imageSrc = it.image
                                 )
                             }))
-
                     }
-                    val columnData = repository.getNews("column")
-                    columnData.onSuccess {
+
+
+                    repository.getNews(NewsType.COLUMN).collect {
                         mainState.value =
                             mainState.value.copy(columnData = ColumnUIState.OnGetNews(it.itemDTOS.map {
                                 ColumnNewsItem(
@@ -66,7 +74,6 @@ class MainViewModel() : ViewModel() {
                                 )
                             }))
                     }
-
                 }
             }
         }

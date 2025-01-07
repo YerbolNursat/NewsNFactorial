@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,14 +39,14 @@ import kz.nfactorial.news.R
 @Composable
 fun MainScreen(
     onEvent: (MainEvent) -> Unit,
-    state: MainState
+    state: State<MainState>
 ) {
 
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        when (state.columnData) {
+        when (state.value.columnData) {
             is ColumnUIState.OnGetNews -> {
                 LazyColumn(
                     modifier = Modifier
@@ -53,11 +54,11 @@ fun MainScreen(
                         .background(color = Color.White)
                         .padding(top = 56.dp)
                 ) {
-                    item { SearchView(onEvent, state) }
-                    item { TopView(state.rowData.news) }
+                    item { SearchView(onEvent, state.value) }
+                    item { TopView(state.value.rowData.news) }
                     item { BottomViewHeader() }
-                    state.columnData.news.forEachIndexed { i, _ ->
-                        item { ColumnView(state.columnData.news[i]) }
+                    state.value.columnData.news.forEachIndexed { i, _ ->
+                        item { ColumnView(state.value.columnData.news[i]) }
                     }
                 }
             }

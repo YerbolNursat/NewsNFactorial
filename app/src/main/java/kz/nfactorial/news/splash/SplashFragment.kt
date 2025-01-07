@@ -18,11 +18,12 @@ class SplashFragment : Fragment() {
     private val splashViewModel: SplashViewModel by viewModels(
         viewModelInitializer = {
             SplashViewModel(
-                newsRepository = NewsRepository(
-                    newsApi = NetworkApi().retrofit.create<NewsApi>(
-                        NewsApi::class.java
-                    )
-                ),
+//                newsRepository = NewsRepository(
+//                    newsApi = NetworkApi().retrofit.create<NewsApi>(
+//                        NewsApi::class.java
+//                    ),
+//                    newsDao =
+//                ),
             )
         }
     )

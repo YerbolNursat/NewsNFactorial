@@ -101,8 +101,6 @@ fun SplashScreen(
 
             Spacer(Modifier.weight(1f))
 
-
-
             Button(
                 modifier = Modifier
                     .fillMaxWidth()

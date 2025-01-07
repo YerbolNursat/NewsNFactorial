@@ -12,7 +12,7 @@ data class NewsRowDTO(
 @Serializable
 data class ItemDTO(
     @SerialName("id")
-    val id: String,
+    val id: Int,
 
     @SerialName("image")
     val image: String,
