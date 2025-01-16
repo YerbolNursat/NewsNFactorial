@@ -1,5 +1,6 @@
 package kz.nfactorial.news.main
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -19,10 +20,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,20 +37,47 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kz.nfactorial.news.R
+import kotlin.math.log
 
 @Composable
 fun MainScreen(
     onEvent: (MainEvent) -> Unit,
     state: State<MainState>
 ) {
+    val timer = remember { mutableIntStateOf(0) }
+
+    LaunchedEffect("OnStart") {
+        onEvent(MainEvent.OnGetNews)
+    }
+
+    DisposableEffect(state.value.columnData is ColumnUIState.OnGetNews) {
+        val scope = MainScope()
+        val job = Job()
+        scope.launch(job) {
+            while (true) {
+                delay(1000L)
+                timer.value += 1
+            }
+        }
+
+        onDispose { job.cancel() }
+    }
+
 
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.TopCenter
     ) {
         when (state.value.columnData) {
             is ColumnUIState.OnGetNews -> {
@@ -68,7 +101,21 @@ fun MainScreen(
             }
         }
 
-
+        AnimatedVisibility(timer.intValue > 0) {
+            Text(
+                "Current working time is ${timer.intValue} seconds",
+                modifier = Modifier
+                    .padding(vertical = 4.dp, horizontal = 16.dp)
+                    .background(color = Color.Black, shape = RoundedCornerShape(33.dp))
+                    .padding(vertical = 2.dp, horizontal = 6.dp),
+                color = Color.White,
+                fontSize = 12.sp,
+                textAlign = TextAlign.Center
+            )
+            SideEffect {
+                println("Current working time is ${timer.intValue} seconds")
+            }
+        }
     }
 
 }

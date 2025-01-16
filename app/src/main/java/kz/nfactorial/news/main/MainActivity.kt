@@ -25,7 +25,6 @@ class MainActivity() : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         mainViewModel.setContext(this)
-        mainViewModel.dispatch(MainEvent.OnGetNews)
     }
 }
 
