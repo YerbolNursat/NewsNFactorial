@@ -1,8 +1,8 @@
 package kz.nfactorial.news.data.api
 
-import kz.nfactorial.news.data.entity.ItemDTO
-import kz.nfactorial.news.data.entity.NewsRowDTO
-import kz.nfactorial.news.data.params.NewsParams
+import kz.nfactorial.news.data.entity.NewsItemResponse
+import kz.nfactorial.news.data.entity.NewsResponse
+import kz.nfactorial.news.domain.entity.params.NewsParams
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -14,7 +14,7 @@ interface NewsApi {
     @GET("news")
     suspend fun getNews(
         @Query("type") type: String
-    ): Result<NewsRowDTO>
+    ): Result<NewsResponse>
 
     @GET("news/{id}")
     suspend fun getNewsById(
@@ -25,6 +25,6 @@ interface NewsApi {
     @POST("news")
     suspend fun addNews(
        @Body params: NewsParams
-    ): Result<ItemDTO>
+    ): Result<NewsItemResponse>
 
 }

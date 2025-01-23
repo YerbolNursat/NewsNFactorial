@@ -12,10 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.News"
+        android:name=".presentation.App"
         tools:targetApi="31">
-        <activity android:name=".main.MainActivity" />
+        <activity android:name=".presentation.main.MainActivity" />
         <activity
-            android:name=".splash.SplashActivity"
+            android:name=".presentation.splash.SplashActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.News">
@@ -26,6 +27,7 @@
             </intent-filter>
 
         </activity>
+        <service android:name=".presentation.NewsService"/>
     </application>
 
 </manifest>

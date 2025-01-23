@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "kz.nfactorial.news"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "kz.nfactorial.news"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -67,6 +67,9 @@ dependencies {
     implementation(libs.retrofit.kotlin.result)
     implementation(libs.coil)
     implementation(libs.coil.network)
+    implementation(libs.koin)
+    implementation(libs.workManager)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

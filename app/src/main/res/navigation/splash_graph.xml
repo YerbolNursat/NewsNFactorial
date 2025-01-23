@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="kz.nfactorial.news.splash.SplashFragment"
+        android:name="kz.nfactorial.news.presentation.splash.SplashFragment"
         android:label="SplashFragment">
     </fragment>
 
