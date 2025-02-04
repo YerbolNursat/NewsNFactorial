@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "944919090386",
+    "project_id": "newsnfactorial",
+    "storage_bucket": "newsnfactorial.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944919090386:android:5b1710a0b939e5347d890b",
+        "android_client_info": {
+          "package_name": "kz.nfactorial.news"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoWYZNDj9J0rzKI-C0MqvWhqLWfkmcfBg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
