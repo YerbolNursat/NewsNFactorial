@@ -29,37 +29,37 @@ class SplashFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = ComposeView(requireContext()).apply {
         setContent {
-            val kazakhstanLatLng = remember { LatLng(48.1448, 67.1429) }
-            val almatyLatLng = remember { LatLng(43.2220, 76.8512) }
-            val astanaLatLng = remember { LatLng(51.1694, 71.4491) }
+//            val kazakhstanLatLng = remember { LatLng(48.1448, 67.1429) }
+//            val almatyLatLng = remember { LatLng(43.2220, 76.8512) }
+//            val astanaLatLng = remember { LatLng(51.1694, 71.4491) }
+//
+//            val cameraPositionState = rememberCameraPositionState {
+//                position = CameraPosition.fromLatLngZoom(kazakhstanLatLng, 8f)
+//            }
+//
+//            val almatyMarkerState = rememberMarkerState(position = almatyLatLng)
+//            val astanaMarkerState = rememberMarkerState(position = astanaLatLng)
+//
+//            GoogleMap(
+//                modifier = Modifier.fillMaxSize(),
+//                cameraPositionState = cameraPositionState,
+//            ) {
+//                Marker(
+//                    state = almatyMarkerState,
+//                    title = "Almaty",
+//                    snippet = "This is Almaty!"
+//                )
+//                Marker(
+//                    state = astanaMarkerState,
+//                    title = "Astana",
+//                    snippet = "This is Astana!"
+//                )
+//            }
 
-            val cameraPositionState = rememberCameraPositionState {
-                position = CameraPosition.fromLatLngZoom(kazakhstanLatLng, 8f)
-            }
 
-            val almatyMarkerState = rememberMarkerState(position = almatyLatLng)
-            val astanaMarkerState = rememberMarkerState(position = astanaLatLng)
-
-            GoogleMap(
-                modifier = Modifier.fillMaxSize(),
-                cameraPositionState = cameraPositionState,
-            ) {
-                Marker(
-                    state = almatyMarkerState,
-                    title = "Almaty",
-                    snippet = "This is Almaty!"
-                )
-                Marker(
-                    state = astanaMarkerState,
-                    title = "Astana",
-                    snippet = "This is Astana!"
-                )
-            }
-
-
-        //            SplashScreen(
-//                onEvent = { event -> splashViewModel.dispatch(event, requireActivity()) },
-//            )
+            SplashScreen(
+                onEvent = { event -> splashViewModel.dispatch(event, requireActivity()) },
+            )
         }
     }
 

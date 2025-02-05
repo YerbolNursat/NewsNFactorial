@@ -28,6 +28,18 @@ class MainActivity() : ComponentActivity() {
                 onEvent = { event -> mainViewModel.dispatch(event) },
                 state = mainViewModel.mainState.collectAsState()
             )
+            MainScreen(
+                onEvent = { event -> mainViewModel.dispatch(event) },
+                state = mainViewModel.mainState.collectAsState()
+            )
+            MainScreen(
+                onEvent = { event -> mainViewModel.dispatch(event) },
+                state = mainViewModel.mainState.collectAsState()
+            )
+            MainScreen(
+                onEvent = { event -> mainViewModel.dispatch(event) },
+                state = mainViewModel.mainState.collectAsState()
+            )
         }
     }
 
