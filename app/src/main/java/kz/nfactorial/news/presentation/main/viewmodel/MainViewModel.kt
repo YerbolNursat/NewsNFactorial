@@ -2,6 +2,7 @@ package kz.nfactorial.news.presentation.main.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kz.nfactorial.news.domain.entity.NewsType

@@ -5,6 +5,7 @@ import kz.nfactorial.news.data.db.NewsDatabase
 import kz.nfactorial.news.data.repository.NewsRepositoryImpl
 import kz.nfactorial.news.domain.repository.NewsRepository
 import kz.nfactorial.news.domain.usecase.GetNewsUseCase
+import kz.nfactorial.news.domain.usecase.GetNewsUseCaseImpl
 import kz.nfactorial.news.presentation.main.viewmodel.MainViewModel
 import kz.nfactorial.news.presentation.splash.SplashViewModel
 import org.koin.core.module.dsl.viewModel
@@ -18,7 +19,7 @@ private fun getNewsDao(database: NewsDatabase) = database.getAccountDao()
 val newsModules = module {
 
     single<NewsRepository> { NewsRepositoryImpl(getNewsApi(get()), getNewsDao(get())) }
-    factory { GetNewsUseCase(get()) }
+    factory<GetNewsUseCase> { GetNewsUseCaseImpl(get()) }
     viewModel { MainViewModel(get()) }
     viewModel { SplashViewModel() }
 }
